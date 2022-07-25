@@ -1,0 +1,30 @@
+{%extends "MillasViajerasApp/base.html"%}
+
+{%block title%}
+Millas Viajeras - Comentar Publicacion
+{%endblock%}
+
+{%block contenido%}
+
+<br>
+    <div class="col-lg-6 mb-5" style="margin-left: auto; margin-right: auto;">
+        <div class="card h-100 shadow border-0">            
+            <div class="card-body p-4">
+                <h1>Comentar Publicacion</h1>
+                <hr>
+                <form enctype="multipart/form-data" action="" method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="form-floating mb-2">
+                        {{comentario.as_p}}
+                        <br>
+                        <br>
+                    
+                    <input type="submit" class="btn btn-primary" value="Comentar">
+                    </div>
+                </form>                                                 
+            </div>                                
+        </div>
+    </div>
+
+{%endblock%}

@@ -1,0 +1,65 @@
+{%extends "MillasViajerasApp/base.html"%}
+
+{%block title%}
+Millas Viajeras - Publicacion
+{%endblock%}
+
+{%block contenido%}
+
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-6 order-first order-lg-last"><img class="img-fluid rounded mb-5 mb-lg-0" src="{{publicaciones.imagen.url}}" alt="..."/></div>
+                <div class="col-lg-6">
+                    <h3 class="fw-bolder">{{ publicaciones.pais }}</h3>
+                    <h2 class="fw-bolder">{{ publicaciones.titulo }}</h2>
+                    <h6>Fecha: <i>{{publicaciones.fecha_viaje}}</i> | Creado por: <i>{{publicaciones.autor}}</i></h6>
+                    <br>
+                    <p class="lead fw-normal text-muted mb-0">{{ publicaciones.descripcion|safe }}</p>
+                </div>                
+            </div>
+            {%if user.is_authenticated%}
+                {%if user.get_username|slugify == publicaciones.autor|slugify %}
+                <form action="{% url 'publicacion_like' publicaciones.pk %}" method="POST">
+                    {% csrf_token %} 
+                    <button type="submit" name="publicacion_id" value="{{publicacion.id}}" class="btn btn-primary bi bi-heart disabled"></button> - {{total_likes}} Me Gusta
+                </form>
+                {%else%}           
+                <form action="{% url 'publicacion_like' publicaciones.pk %}" method="POST">
+                    {% csrf_token %} 
+                    <button type="submit" name="publicacion_id" value="{{publicacion.id}}" class="btn btn-primary bi bi-heart"></button> - {{total_likes}} Me Gusta
+                </form>
+                {%endif%}
+            {%else%}
+            {{total_likes}} - Me Gusta
+            {%endif%}
+                <br>
+                <br>
+            <h2 style="text-align: center;">Comentarios</h2>
+    <hr style="margin-left: auto; margin-right: auto; max-width: 50%;">
+    
+    {%if not publicaciones.comentarios.all %}
+    <a href="{% url 'agregar_comentario_publicacion' publicaciones.pk %}" class="btn btn-primary" " >Agregar Comentario</a>
+
+    No hay comentarios aun...
+
+    {%else%}
+    
+        <div class="container px-5 my-5">
+            <a href="{% url 'agregar_comentario_publicacion' publicaciones.pk %}" class="btn btn-primary" " >Agregar Comentario</a>
+            <br>
+            <br>
+            {%for comentario in publicaciones.comentarios.all %}
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-6">
+                    <h4 class="text-muted">{{comentario.nombre}}</h4>
+                    <p class="lead fw-normal mb-0">{{comentario.comentario}}</p>
+                    <h6>{{comentario.fecha}}</h6>
+                    <br>
+                    <hr>
+                </div>
+        {%endfor%}
+    {%endif%}
+        </div>
+    </section>  
+{%endblock%}

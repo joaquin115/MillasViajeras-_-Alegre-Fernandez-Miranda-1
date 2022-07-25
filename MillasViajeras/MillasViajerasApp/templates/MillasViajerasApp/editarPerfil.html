@@ -1,0 +1,38 @@
+{%extends "MillasViajerasApp/base.html"%}
+
+
+{%block title%}
+Millas Viajeras - Editar Perfil
+{%endblock%}
+
+{%block contenido%}
+
+<br>
+    <div class="col-lg-3 mb-5" style="margin-left: auto; margin-right: auto;">
+        <div class="card h-100 shadow border-0">            
+            <div class="card-body p-4">
+                <h1>Editar Perfil</h1>
+                <hr>
+                <form enctype="multipart/form-data" action="" method="POST">
+                    {% csrf_token %}
+                    
+                        <table>
+                    
+                            {{form.as_table}}
+                    
+                        </table>
+                        <br>
+                        {%for msg in messages%}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{msg}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {%endfor%}
+                        <input type="submit" class="btn btn-primary" value="Guardar">
+                        <a class="btn btn-outline-primary" href="{% url 'agregar_avatar' %}" style="text-align: center;">Agregar Avatar</a>                                   
+                        <a class="btn btn-outline-dark" href="{% url 'cambiar_pass' %}" style="text-align: center;">Cambiar Pass</a>                                   
+                </form>                                                 
+            </div>                                
+        </div>
+    </div>
+{%endblock%}
